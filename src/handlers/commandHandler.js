@@ -4,14 +4,20 @@ const path = require('path')
 function loadCommands(malum) {
     malum.commands = new Map()
 
-    const commandFiles = fs.readdirSync(path.join(__dirname, '../commands')).filter(file => file.endsWith('.js'))
+    const commandsPath = path.join(__dirname, '../commands')
+    const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'))
 
     for (const file of commandFiles) {
-        const command = require(`../commands/${file}`)
-        malum.commands.set(command.name, command)
+        const command = require(path.join(commandsPath, file))
+        if (command.name) {
+            malum.commands.set(command.name, command)
+            console.log(`Loaded command: ${command.name}`)
+        } else {
+            console.log(`Skipped: ${file} (no name specified)`)
+        }
     }
 
-    console.log(`Loaded ${malum.commands.size} commands.`)
+    console.log(`Total loaded commands: ${malum.commands.size}`)
 }
 
 module.exports = { loadCommands }

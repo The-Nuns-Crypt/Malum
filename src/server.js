@@ -3,7 +3,7 @@ const { loadCommands } = require('./handlers/commandHandler')
 const { loadEvents } = require('./handlers/eventHandler')
 require('dotenv').config()
 
-const malum = new Client({ intents: [GatewayIntentBits.Guilds] })
+const malum = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages] })
 
 loadCommands(malum)
 loadEvents(malum)
